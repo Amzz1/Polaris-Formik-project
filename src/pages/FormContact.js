@@ -2,9 +2,17 @@ import React, { useState, useEffect ,useRef} from "react";
 import { Button, Form, FormLayout, TextField } from "@shopify/polaris";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Card, Page } from "@shopify/polaris";
-import FormContactSkeleton from "./FormContactSkeleton";
+import {  Page } from "@shopify/polaris";
 import axios from "axios";
+import {
+  SkeletonPage,
+  Layout,
+  Card,
+  SkeletonBodyText,
+  TextContainer,
+  SkeletonDisplayText,
+} from "@shopify/polaris";
+
 import useShowSkeleton from '../useShowSkeleton'
 let SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -13,12 +21,6 @@ let SignupSchema = Yup.object().shape({
 });
 
 export default function FormOnSubmitExample() {
-  // const [showSkeleton, setShowSkeleton] = useState(true);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowSkeleton(!showSkeleton);
-  //   }, 900);
-  // }, []);
   const [showSkeleton] = useShowSkeleton()
   const [successStatus, setSuccessStatus] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -30,21 +32,7 @@ export default function FormOnSubmitExample() {
       message: "",
     },
     validationSchema: SignupSchema,
-    // onSubmit: (values) => {
-
-    //   console.log("jdfgh");
-    //   alert(JSON.stringify(values, null, 2));
-    //   axios
-    //     .post("https://testapi.io/api/anhez/contact-us", { values })
-    //     .then(function (response) {
-    //       console.log(response.data.msg);
-    //       setSuccessMessage(response.data.msg);
-    //       setSuccessStatus(true);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    // },
+ 
     onSubmit: async (values) => {
       
       axios
@@ -75,7 +63,49 @@ export default function FormOnSubmitExample() {
   console.log("touched.email", formik.values.subject, formik.values.email);
 
   if (showSkeleton) {
-    return <FormContactSkeleton />;
+    return (
+      <div className="contact-form-skeleton skeleton-container">
+      <SkeletonPage primaryAction>
+        <Layout>
+          <Layout.Section>
+            <div className="contact-form-skeleton__header skeleton-container__header ">
+              <SkeletonDisplayText size="medium" />
+            </div>
+            <div className="contact-form-skeleton__inner skeleton-container__inner">
+              <div className="contact-form-skeleton__inner-guideline skeleton-container__inner-guideline">
+                <Card sectioned>
+                  <TextContainer>
+                    <SkeletonBodyText lines={4} />
+                  </TextContainer>
+                </Card>
+              </div>
+              <Card sectioned>
+                <TextContainer>
+                  <SkeletonBodyText lines={1} />
+                  <SkeletonDisplayText size="small" />
+                </TextContainer>
+              </Card>
+              <Card sectioned>
+                <TextContainer>
+                  <SkeletonBodyText lines={1} />
+                  <SkeletonDisplayText size="small" />
+                </TextContainer>
+              </Card>
+              <Card sectioned>
+                <TextContainer>
+                  <SkeletonBodyText lines={1} />
+                  <SkeletonDisplayText size="small" />
+                </TextContainer>
+                <div className="save-btn-skeleton">
+                  <SkeletonDisplayText size="medium" />
+                </div>
+              </Card>
+            </div>
+          </Layout.Section>
+        </Layout>
+      </SkeletonPage>
+    </div>
+    )
   } else {
     return (
       <div className="contact-form-wrap">

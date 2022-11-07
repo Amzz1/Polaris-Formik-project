@@ -1,11 +1,11 @@
 import React from 'react'
-import Home from '../component/Home'
-import RecentTasks from '../component/RecentTasks'
+import AppFrame from './Frame'
+import RecentTasks from '../pages/RecentTasks'
 import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-    <Home/>
+    <AppFrame/>
     <Outlet/>
     </>
   )

@@ -25,8 +25,8 @@ const AppProviderContext = ({ children }) => {
     {item.id}
     </span>,
     <div className="task-name__container">
-      <div style={{color:'#00a0ac'}}>{item.name}</div>
-      <div style={{color:'#c7c5c5'}} className="task-n">{item.description}</div>
+      <div className="task-name__container--name">{item.name}</div>
+      <div className="task-name__container--description">{item.description}</div>
     
     </div>
     ,

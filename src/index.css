@@ -527,3 +527,20 @@ background-color: #4dacec;
   max-width: 1200px!important;
   margin: 0 auto!important;
 }
+.task-type .Polaris-Badge{
+  display: flex;
+  justify-content: center;
+}
+.success-message{
+margin: 0!important;
+}
+.task-name__container--name{
+font-weight: 500;  
+color:#2dacfa;
+}
+.task-name__container--description{
+  color:#60696e;
+}
+.Polaris-Frame__Content h1{
+  text-align: center;
+}

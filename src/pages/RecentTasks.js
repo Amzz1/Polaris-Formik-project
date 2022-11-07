@@ -1,14 +1,21 @@
+import { Page, DataTable } from "@shopify/polaris";
+import { useGlobalContext } from "../context";
 import {
-    SkeletonPage,
-    Layout,
-    Card,
-    SkeletonBodyText,
-    TextContainer,
-    SkeletonDisplayText,
-  } from "@shopify/polaris";
+  SkeletonPage,
+  Layout,
+  Card,
+  SkeletonBodyText,
+  TextContainer,
+  SkeletonDisplayText,
+} from "@shopify/polaris";
+import useShowSkeleton from '../useShowSkeleton'
 
-  const RecentTaskSkeleton = () => {
-    return (
+function RecentTasks() {
+  const { row } = useGlobalContext();
+  const [showSkeleton] = useShowSkeleton()
+
+  if(showSkeleton){
+    return(
       <div className="skeleton-container recent-task-skeleton">
         <SkeletonPage primaryAction>
           <Layout>
@@ -62,8 +69,35 @@ import {
           </Layout>
         </SkeletonPage>
       </div>
-    );
-  };
-  
-  export default RecentTaskSkeleton;
-  
+    )
+  }else{
+  return (
+    <div className="task-wrap">
+    <Page>
+      <Card>
+        <DataTable
+          columnContentTypes={[
+            "text",
+            "numeric",
+            "text",
+            "text",
+            "text",
+            "text",
+          ]}
+          headings={[
+            "Type",
+           <div className="task-id-title">Task ID</div> ,
+            "Task Name",
+            "Status",
+            "Deliverable",
+            "Closed",
+          ]}
+          rows={row}
+        />
+      </Card>
+    </Page>
+    </div>
+  );
+        }
+}
+export default RecentTasks;

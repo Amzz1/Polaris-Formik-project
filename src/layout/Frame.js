@@ -1,5 +1,4 @@
 import {
-  AppProvider,
   Frame,
   Navigation,
   TopBar,
@@ -16,11 +15,26 @@ import {
   NotificationMajor,
 } from "@shopify/polaris-icons";
 import { useState, useCallback, useRef } from "react";
-import SubmitSection from "./SubmitSection";
+import SubmitSection from "../component/SubmitSection";
 import {OrdersMinor } from "@shopify/polaris-icons";
-import { useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import {NoteMinor,ToggleMinor,ArchiveMinor,InviteMinor,QuestionMarkInverseMinor,SettingsMajor} from "@shopify/polaris-icons";
-function Home() {
+import { useNavigate } from "react-router-dom";
+import RecentTasks from "../pages/RecentTasks";
+import FormOnSubmitExample from '../pages/FormContact'
+import {Routes,Route} from 'react-router-dom'
+import TaskCatalog from '../pages/TaskCatalog'
+import Subscribe from '../pages/Subscribe'
+import Settings from '../pages/Settings'
+import MemberPeaks from '../pages/MemberPeaks'
+import InviteFriends from '../pages/InviteFriends'
+import FormContact from '../pages/FormContact'
+import FAQ from "../pages/FAQ";
+import Completed from "../pages/Completed";
+import Closed from "../pages/Closed";
+import Active from "../pages/Active";
+function AppFrame() {
+  const navigate = useNavigate()
   const location = useLocation();
   const skipToContentRef = useRef(null);
   const [userMenuActive, setUserMenuActive] = useState(false);
@@ -35,6 +49,10 @@ function Home() {
         (mobileNavigationActive) => !mobileNavigationActive
       ),
     []
+  );
+  const navigateToContactPage = useCallback(
+    () => navigate('/contact'),
+    [navigate]
   );
 
 
@@ -138,9 +156,11 @@ function Home() {
           title="MORE"
           items={[
             {
+              
               url: "/member",
               label: "Member Peaks",
               icon: GiftCardMajor,
+            
             },
             {
               url: "/invite",
@@ -152,6 +172,7 @@ function Home() {
               url: "/contact",
               label: "Contact Us",
               icon: InviteMinor,
+              onClick:navigateToContactPage
             },
             {
               url: "/faq",
@@ -185,46 +206,9 @@ function Home() {
     url: "http://jadedpixel.com",
     accessibilityLabel: "Jaded Pixel",
   };
-  // if (showSkeleton) {
-  //   return <HomeSkeleton />;
-  // } else {
+  
     return (
-      <div style={{ height: "500px" }}>
-        <AppProvider
-          i18n={{
-            Polaris: {
-              Avatar: {
-                label: "Avatar",
-                labelWithInitials: "Avatar with initials {initials}",
-              },
-              ContextualSaveBar: {
-                save: "Save",
-                discard: "Discard",
-              },
-              TextField: {
-                characterCount: "{count} characters",
-              },
-              TopBar: {
-                toggleMenuLabel: "Toggle menu",
-
-                SearchField: {
-                  clearButtonLabel: "Clear",
-                  search: "Search",
-                },
-              },
-              Modal: {
-                iFrameTitle: "body markup",
-              },
-              Frame: {
-                skipToContent: "Skip to content",
-                navigationLabel: "Navigation",
-                Navigation: {
-                  closeMobileNavigationLabel: "Close navigation",
-                },
-              },
-            },
-          }}
-        >
+      
           <Frame
             logo={logo}
             topBar={topBarMarkup}
@@ -236,10 +220,25 @@ function Home() {
             <div className="summit-wrap">
             <SubmitSection />
             </div>
+            <Routes>
+              <Route index element={<RecentTasks />} />
+              <Route path="contact" element={<FormOnSubmitExample />} />
+              <Route path='/home' element={<RecentTasks/>}/>
+              <Route path='/task' element={<TaskCatalog/>}/>
+              <Route path='/active' element={<Active/>}/>
+              <Route path='/completed' element={<Completed/>}/>
+              <Route path='/closed' element={<Closed/>}/>
+              <Route path='/subscribe' element={<Subscribe/>}/>
+              <Route path='/member' element={<MemberPeaks/>}/>
+              <Route path='/invite' element={<InviteFriends/>}/>
+              <Route path='/contact' element={<FormContact/>}/>
+              <Route path='/faq' element={<FAQ/>}/>
+             <Route path='/settings' element={<Settings/>}/>
+            
+          </Routes>
           </Frame>
-        </AppProvider>
-      </div>
+        
     );
   }
 
-export default Home;
+export default AppFrame;
